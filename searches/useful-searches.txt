@@ -1,0 +1,3 @@
+# searches that i find interesting or useful
+
+| metadata type=sourcetypes index=* | sort -totalCount | head 10 | table sourcetype | map search="search index=* sourcetype=$sourcetype$ | head 1000 | eval len = len(_raw) | stats max(len) by sourcetype"
