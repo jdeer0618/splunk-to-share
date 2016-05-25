@@ -3,3 +3,7 @@
 # obviously can be accomplished other, better, ways but it is an example of the map command
 # tags: commands, map
 | metadata type=sourcetypes index=* | sort -totalCount | head 10 | table sourcetype | map search="search index=* sourcetype=$sourcetype$ | head 1000 | eval len = len(_raw) | stats max(len) by sourcetype"
+
+# generates hosts reporting in by index using metadata
+# tags: commands, map, metadata
+| rest /services/data/indexes | table title | search NOT title=_* | head 5 | map maxsearches=10 search="| metadata type=hosts index=$title$ | eval idx = \"$title$\""
